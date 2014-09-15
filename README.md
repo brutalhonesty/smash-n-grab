@@ -28,11 +28,10 @@ export EMAIL_USER="FROM_EMAIL@gmail.com"
 export EMAIL_PASS="APP_SPECIFIC_PASSWORD"
 
 # Install
-npm install
-```
+cd /path/to/repo && npm install
 
-```bash
-cd /path/to/repo && node index.js
+# Run
+node index.js
 ```
 
 License
