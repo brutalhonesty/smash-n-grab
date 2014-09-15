@@ -14,8 +14,8 @@ Do not use in production, more of a hackathon-like application.
 Requirements
 ------------
 
-[http://nodejs.org/](NodeJS)
-[http://couchdb.apache.org/](CouchDB)
+[NodeJS](http://nodejs.org/)
+[CouchDB](http://couchdb.apache.org/)
 
 Usage
 -----
@@ -42,4 +42,4 @@ smash.grab(function (err, emailResponse) {
 License
 ------
 
-[http://brutalhonesty.mit-license.org/](MIT)
+[MIT](http://brutalhonesty.mit-license.org/)
