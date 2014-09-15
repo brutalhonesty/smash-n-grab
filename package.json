@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "Reddit Super Smash 3DS Code Scraper",
   "main": "index.js",
-  "scripts": {
-    "test": "grunt test"
-  },
   "repository": {
     "type": "git",
     "url": "git@github.com:brutalhonesty/smash-n-grab.git"

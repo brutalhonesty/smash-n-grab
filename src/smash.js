@@ -42,7 +42,7 @@ var grab = function(callback) {
                 });
               });
             } else {
-              return callback(null);
+              return callback(null, 'No new codes. :(');
             }
           });
         });
@@ -124,7 +124,7 @@ var parsePosts =  function (unparsedPosts, callback) {
         var postId = unparsedPosts[unparsedIndex].data.id;
         var createdEpoch = unparsedPosts[unparsedIndex].data.created_utc;
         var createdDate = new Date(createdEpoch*1000).toString();
-        codes.push({id: postId, code: code, _id: code, epoch: createdEpoch, date: createdDate, milli: createdEpoch * 1000});
+        codes.push({redditId: postId, code: code, _id: code, epoch: createdEpoch, date: createdDate, milli: createdEpoch * 1000});
       }
     }
   }
