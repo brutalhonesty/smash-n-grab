@@ -17,6 +17,6 @@ db.view('smash_n_grab', 'all', {reduce: false}, function (error, reply) {
       return console.log(error);
     }
     console.log(reply);
-    console.log('All codes deleted.');
+    console.log('All codes deleted.'.green);
   });
 });
