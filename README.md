@@ -26,17 +26,13 @@ export FROM_EMAIL="FIRST_NAME LAST_NAME <EMAIL@gmail.com>"
 export TO_EMAIL="EMAIL@gmail.com"
 export EMAIL_USER="FROM_EMAIL@gmail.com"
 export EMAIL_PASS="APP_SPECIFIC_PASSWORD"
+
+# Install
+npm install
 ```
 
-```javascript
-var smash = require('./src/smash');
-
-smash.grab(function (err, emailResponse) {
-  if(err) {
-    return console.log(err);
-  }
-  console.log(emailResponse);
-});
+```bash
+cd /path/to/repo && node index.js
 ```
 
 License
