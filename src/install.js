@@ -1,7 +1,7 @@
 var colors = require('colors');
 var nano = require('nano')('http://localhost:5984');
 
-var codeView = {views: {"all": {"map": "function(doc) {emit(null, doc)}"}, "reduce": "_count"}};
+var codeView = {views: {"all": {"map": "function(doc) {emit(null, doc)}", "reduce": "_count"}}};
 
 nano.db.create('smash_n_grab', function (error, reply) {
   if(error && error.status_code !== 412) {
