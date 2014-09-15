@@ -10,11 +10,11 @@ var nano = require('nano')('http://localhost:5984');
 db = nano.use('smash_n_grab');
 
 var grab = function(callback) {
-    rereddit.read('nintendo').limit(200).end(function (err, nintendoPosts) {
+    rereddit.read('nintendo').end(function (err, nintendoPosts) {
       if(err) {
         return callback(err);
       }
-      rereddit.read('smashbros').limit(200).end(function (err, smashPosts) {
+      rereddit.read('smashbros').end(function (err, smashPosts) {
         var posts = nintendoPosts.data.children.concat(smashPosts.data.children);
         parsePosts(posts, function (error, codes) {
           if(error) {
@@ -42,7 +42,7 @@ var grab = function(callback) {
                 });
               });
             } else {
-              return callback(null, 'No new codes. :(');
+              return callback('No new codes. :(');
             }
           });
         });

@@ -13,6 +13,9 @@
     "reddit",
     "nodejs"
   ],
+  "scripts": {
+    "install": "node src/install.js"
+  },
   "author": "Adam Schodde",
   "license": "MIT",
   "bugs": {
