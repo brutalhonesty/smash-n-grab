@@ -120,11 +120,14 @@ var parsePosts =  function (unparsedPosts, callback) {
     if(unparsedPosts[unparsedIndex].kind === 't3') {
       var codeIndex = unparsedPosts[unparsedIndex].data.selftext.indexOf('A05V');
       if(codeIndex !== -1) {
-        var code = unparsedPosts[unparsedIndex].data.selftext.slice(codeIndex, codeIndex + 16).replace(/ /g, '');
-        var postId = unparsedPosts[unparsedIndex].data.id;
-        var createdEpoch = unparsedPosts[unparsedIndex].data.created_utc;
-        var createdDate = new Date(createdEpoch*1000).toString();
-        codes.push({redditId: postId, code: code, _id: code, epoch: createdEpoch, date: createdDate, milli: createdEpoch * 1000});
+        var parsedCodes = unparsedPosts[unparsedIndex].data.selftext.replace(/ /g, '').match(/A05V[A-Z,0-9]{12}/g);
+        for (var foundCodeIndex = 0; foundCodeIndex < parsedCodes.length; foundCodeIndex++) {
+          var code = parsedCodes[foundCodeIndex];
+          var postId = unparsedPosts[unparsedIndex].data.id;
+          var createdEpoch = unparsedPosts[unparsedIndex].data.created_utc;
+          var createdDate = new Date(createdEpoch*1000).toString();
+          codes.push({redditId: postId, code: code, _id: code, epoch: createdEpoch, date: createdDate, milli: createdEpoch * 1000});
+        }
       }
     }
   }
