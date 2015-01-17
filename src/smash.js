@@ -10,44 +10,62 @@ var nano = require('nano')('http://localhost:5984');
 db = nano.use('smash_n_grab');
 
 var grab = function(callback) {
-    rereddit.read('nintendo').end(function (err, nintendoPosts) {
+  rereddit.read('nintendo').end(function (err, nintendoPosts) {
+    if(err) {
+      return callback(err);
+    }
+    rereddit.read('MonsterHunter').end(function (err, monsterHunterPosts) {
       if(err) {
         return callback(err);
       }
-      rereddit.read('smashbros').end(function (err, smashPosts) {
-        var posts = nintendoPosts.data.children.concat(smashPosts.data.children);
-        parsePosts(posts, function (error, codes) {
-          if(error) {
-            return callback(error);
+      var posts = nintendoPosts.data.children.concat(monsterHunterPosts.data.children);
+      if(err) {
+        return callback(err);
+      }
+      rereddit.read('3ds').end(function (err, threedsPosts) {
+        if(err) {
+          return callback(err);
+        }
+        posts = posts.concat(threedsPosts.data.children);
+        rereddit.read('wiiu').end(function (err, wiiuPosts) {
+          if(err) {
+            return callback(err);
           }
-          checkCodes(codes, function (err, newCodes) {
-            if(err) {
-              return callback(err);
+          posts = posts.concat(wiiuPosts.data.children);
+          parsePosts(posts, function (error, codes) {
+            if(error) {
+              return callback(error);
             }
-            if(newCodes.length > 0) {
-              addCodes(newCodes, function (err, reply) {
-                if(err) {
-                  return callback(err);
-                }
-                createCodeBody(newCodes, function (error, emailBody) {
-                  if(error) {
-                    return callback(error);
+            checkCodes(codes, function (err, newCodes) {
+              if(err) {
+                return callback(err);
+              }
+              if(newCodes.length > 0) {
+                addCodes(newCodes, function (err, reply) {
+                  if(err) {
+                    return callback(err);
                   }
-                  email(emailBody, function (error, response) {
+                  createCodeBody(newCodes, function (error, emailBody) {
                     if(error) {
                       return callback(error);
                     }
-                    return callback(null, response);
+                    email(emailBody, function (error, response) {
+                      if(error) {
+                        return callback(error);
+                      }
+                      return callback(null, response);
+                    });
                   });
                 });
-              });
-            } else {
-              return callback('No new codes. :(');
-            }
+              } else {
+                return callback('No new codes. :(');
+              }
+            });
           });
         });
       });
     });
+  });
 };
 
 var email = function(emailBody, callback) {
@@ -67,7 +85,7 @@ var email = function(emailBody, callback) {
   var mailOptions = {
       from: FROM_EMAIL,
       to: TO_EMAIL,
-      subject: 'Super Smash Brothers 3DS Code Updates ✔',
+      subject: 'Monster Hunter 4 3DS Code Updates ✔',
       html: emailBody
   };
   transporter.sendMail(mailOptions, function(error, info){
@@ -118,9 +136,9 @@ var parsePosts =  function (unparsedPosts, callback) {
   var codes = [];
   for (var unparsedIndex = 0; unparsedIndex < unparsedPosts.length; unparsedIndex++) {
     if(unparsedPosts[unparsedIndex].kind === 't3') {
-      var codeIndex = unparsedPosts[unparsedIndex].data.selftext.indexOf('A05V');
+      var codeIndex = unparsedPosts[unparsedIndex].data.selftext.indexOf('A07');
       if(codeIndex !== -1) {
-        var parsedCodes = unparsedPosts[unparsedIndex].data.selftext.replace(/ /g, '').match(/A05V[A-Z,0-9]{12}/g);
+        var parsedCodes = unparsedPosts[unparsedIndex].data.selftext.replace(/ /g, '').match(/A07[A-Z,0-9]{13}/g);
         for (var foundCodeIndex = 0; foundCodeIndex < parsedCodes.length; foundCodeIndex++) {
           var code = parsedCodes[foundCodeIndex];
           var postId = unparsedPosts[unparsedIndex].data.id;
